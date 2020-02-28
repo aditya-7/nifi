@@ -35,6 +35,13 @@ ENV NIFI_TOOLKIT_HOME ${NIFI_BASE_DIR}/nifi-toolkit-current
 ENV NIFI_PID_DIR=${NIFI_HOME}/run
 ENV NIFI_LOG_DIR=${NIFI_HOME}/logs
 
+ENV NIFI_CONF_DIR=${NIFI_HOME}/conf
+ENV NIFI_DATABASE_REPOSITORY=${NIFI_HOME}/database_repository
+ENV NIFI_FLOWFILE_REPOSITORY=${NIFI_HOME}/flowfile_repository
+ENV NIFI_CONTENT_REPOSITORY=${NIFI_HOME}/content_repository
+ENV NIFI_PROVENANCE_REPOSITORY=${NIFI_HOME}/provenance_repository
+ENV NIFI_STATE_DIR=${NIFI_HOME}/state
+
 ADD sh/ ${NIFI_BASE_DIR}/scripts/
 RUN chmod -R +x ${NIFI_BASE_DIR}/scripts/*.sh
 
@@ -72,12 +79,12 @@ RUN curl -fSL ${MIRROR_BASE_URL}/${NIFI_BINARY_PATH} -o ${NIFI_BASE_DIR}/nifi-${
     && ln -s ${NIFI_HOME} ${NIFI_BASE_DIR}/nifi-${NIFI_VERSION}
 
 VOLUME ${NIFI_LOG_DIR} \
-       ${NIFI_HOME}/conf \
-       ${NIFI_HOME}/database_repository \
-       ${NIFI_HOME}/flowfile_repository \
-       ${NIFI_HOME}/content_repository \
-       ${NIFI_HOME}/provenance_repository \
-       ${NIFI_HOME}/state
+    ${NIFI_CONF_DIR} \
+    ${NIFI_DATABASE_REPOSITORY} \
+    ${NIFI_FLOWFILE_REPOSITORY} \
+    ${NIFI_CONTENT_REPOSITORY} \
+    ${NIFI_PROVENANCE_REPOSITORY} \
+    ${NIFI_STATE_DIR}
 
 # Clear nifi-env.sh in favour of configuring all environment variables in the Dockerfile
 RUN echo "#!/bin/sh\n" > $NIFI_HOME/bin/nifi-env.sh
